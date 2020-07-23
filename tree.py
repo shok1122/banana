@@ -1,7 +1,8 @@
 class Node:
 
-    def __init__(self, label=''):
+    def __init__(self, label='', remarks=''):
         self.label = label
+        self.remarks = remarks
         self.parent = None
         self.tier = 0
         self.children = []
@@ -9,8 +10,8 @@ class Node:
     def set_parent(self, parent_node):
         self.parent = parent_node
 
-    def add_child(self, label=''):
-        child = Node(label)
+    def add_child(self, label='', remarks=''):
+        child = Node(label, remarks)
         child.parent = self
         child.tier = child.parent.tier + 1
         self.children.append(child)
@@ -20,7 +21,10 @@ class Node:
         tab = ''
         for i in range(self.tier):
             tab += '\t'
-        print(f'{tab}{self.label}')
+        remarks = ''
+        if 0 < len(self.remarks):
+            remarks = '(' + self.remarks + ')'
+        print(f'{tab}{self.label}{remarks}')
         for c in self.children:
             c.dump_text()
 
@@ -29,8 +33,9 @@ class Tree:
     def __init__(self):
         self.root = Node()
 
-    def set_root(self, label):
+    def set_root(self, label, remarks):
         self.root.label = label
+        self.root.remarks = remarks
         self.parent = None
 
     def load(self, data):
